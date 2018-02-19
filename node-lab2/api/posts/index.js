@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
 // get a post
 router.get('/:id', (req, res) => {
     const id = req.params.id;
-    const post = stubAPI.getPost(id);
+    const newComment = req;
 
        if (post) {
                return res.status(200).send(post);
@@ -39,5 +39,21 @@ router.post('/:id/upvote', (req, res) => {
             }
             return res.status(404).send({message: `Unable to find Post ${id}`});
 });
+
+
+
+router.post('/:id/comment', (req, res) => {
+     const id = req.params.id;
+     const newComment = req.body;
+
+            if (newComment && stubAPI.addComment(id, newComment.comment, newComment.author)) {
+                 return res.status(200).send({message: `Post ${id} Commented`});
+            }
+            return res.status(404).send({message: `Unable to find Post ${id}`});
+});
+
+
+
+
 
 export default router;
